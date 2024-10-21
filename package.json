@@ -1,0 +1,10 @@
+{
+  "name": "node-wt",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "cd ./napi/quiche-node-bindings && napi build --release"
+  },
+  "devDependencies": {
+    "@napi-rs/cli": "^2.18.4"
+  }
+}
