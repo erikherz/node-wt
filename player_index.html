@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebTransport Client</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f9f9f9;
+    }
+    textarea {
+      width: 100%;
+      height: 150px;
+      margin-bottom: 10px;
+      padding: 10px;
+      font-size: 14px;
+      background-color: #f1f1f1;
+      border: 1px solid #ccc;
+      resize: none;
+    }
+    input {
+      padding: 10px;
+      font-size: 14px;
+      width: calc(100% - 22px);
+      margin-bottom: 10px;
+      background-color: #e8f0fe;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      padding: 10px 15px;
+      margin-top: 10px;
+      font-size: 14px;
+      background-color: #4285f4;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <h1>WebTransport Client</h1>
+  <div>
+    <label for="serverUrl">WebTransport Server URL:</label>
+    <input type="text" id="serverUrl" value="https://wt.vivoh.io">
+  </div>
+  <textarea id="output" readonly placeholder="Messages from server will appear here..."></textarea>
+  <textarea id="input" placeholder="Enter message to send..."></textarea>
+  <button id="connectButton">Connect</button>
+  <button id="sendButton" disabled>Send</button>
+  <button id="disconnectButton" disabled>Disconnect</button>
+  <script src="wt.js"></script>
+</body>
+</html>
