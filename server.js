@@ -36,18 +36,41 @@ console.log(`Key Path: ${keyPath}`);
 
 try {
     console.log('Starting QUIC server setup...');
-    
+
     // Call the Rust function to setup the QUIC server
-    //const result = quiche.setup_quic_server(certPath, keyPath);
-   // const result = quiche.setup_quic_server(certPath, keyPath); // Use snake_case here
     const result = quiche.setupQuicServer(certPath, keyPath); // Use camelCase
-
-	console.log('Exports from Quiche bindings:', Object.keys(quiche));
-
-
     
     console.log('QUIC server setup result:', result);
     console.log('QUIC server setup complete. Listening for connections...');
+    
+    // Adding event listeners to capture incoming data
+    result.on('connectionAccepted', (conn) => {
+        console.log(`Connection accepted from ${conn.remoteAddress}`);
+
+        conn.on('data', (data) => {
+            console.log('Received data from client:', data);
+
+            // If the data contains version info, log it
+            if (data && data.version) {
+                console.log(`Client QUIC version: ${data.version}`);
+            } else {
+                console.log("No version information received in the data.");
+            }
+        });
+
+        conn.on('versionNegotiation', (clientVersion) => {
+            // Log the version negotiation and the client version sent
+            console.log(`Unsupported QUIC version from client: ${clientVersion}. Only QUIC v1 is supported.`);
+            console.log("Sending version negotiation packet...");
+            quiche.sendVersionNegotiation(clientVersion);  // Trigger version negotiation
+            console.log(`Version negotiation packet sent for client version: ${clientVersion}`);
+        });
+
+        conn.on('end', () => {
+            console.log('Connection ended.');
+        });
+    });
+
 } catch (err) {
     console.error('Error during QUIC server setup:', err.stack);
     process.exit(1);
